@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  main:
+    image: odelucca/chia-plotter
+    container_name: chia-plotter
+    volumes:
+      - ${TMP_HARVESTER_DIR}:/mnt/harvester
+      - ${FINAL_FARM_DIR}:/mnt/farm
+    networks:
+      - net
+    cpus: ${CPU_CORE}
+    cpu_percent: 10
+    restart: on-failure
+    mem_limit: ${MEMORY_LIMIT}
+    command: -t /mnt/harvester/ -d /mnt/farm/ -p ${POOL_KEY} -f ${FARM_KEY} -r ${THREAD_COUNT}
+
+networks:
+  net:
+    driver: bridge
